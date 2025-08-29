@@ -4,6 +4,12 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
+// Notes for maintainers:
+// - The project uses Java 17 toolchain. Ensure CI and local environments provide JDK 17.
+// - To verify dependency resolution without building, run:
+//     ./gradlew --no-daemon dependencies -q
+// - If resolution fails due to repository/network issues, retry with --refresh-dependencies.
+
 group = 'com.example'
 version = '0.1.0'
 
@@ -14,6 +20,7 @@ java {
 }
 
 repositories {
+	// Central repository for dependencies
 	mavenCentral()
 }
 
@@ -23,11 +30,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+	// JWT (API at compile time; implementation modules at runtime)
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
